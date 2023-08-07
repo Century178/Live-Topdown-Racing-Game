@@ -6,6 +6,6 @@ public class LapLine : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameManager.gameManager.LapIncrease();
+        if (collision.gameObject.CompareTag("Player")) GameManager.gameManager.LapIncrease();
     }
 }

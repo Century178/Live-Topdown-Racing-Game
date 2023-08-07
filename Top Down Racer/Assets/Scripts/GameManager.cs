@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
 
+    [Header("Lapping")]
     [SerializeField] private float lapTotal;
     public float lapCount;
+    public float oppLapCount;
+    [SerializeField] private TextMeshProUGUI lapText;
+
+    [Header("Other")]
+    [SerializeField] private TextMeshProUGUI placeText;
 
     private void Awake()
     {
@@ -21,11 +28,20 @@ public class GameManager : MonoBehaviour
     {
         lapCount++;
 
-        if (lapCount > lapTotal) Victory();
+        if (lapCount > lapTotal) Victory(true);
+        else lapText.text = "Lap " + lapCount.ToString();
     }
 
-    private void Victory()
+    public void OppLapIncrease()
     {
-        Debug.Log("You win!");
+        oppLapCount++;
+
+        if (oppLapCount > lapTotal) Victory(false);
+    }
+
+    private void Victory(bool playerWon)
+    {
+        if (playerWon) placeText.text = "You Win!";
+        else placeText.text = "You Lose!";
     }
 }
