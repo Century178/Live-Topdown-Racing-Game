@@ -108,7 +108,7 @@ MonoBehaviour:
   - {x: 19.08, y: 3.03}
   - {x: 2.49, y: 2.5}
   - {x: -1, y: 21}
-  moveSpeed: 19
+  moveSpeed: 22.5
   turnSpeed: 0.03
   offset: -90
   closeEnough: 3.5
