@@ -7,14 +7,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
 
-    [Header("Lapping")]
     [SerializeField] private float lapTotal;
     public float lapCount;
     public float oppLapCount;
     [SerializeField] private TextMeshProUGUI lapText;
 
-    [Header("Other")]
-    [SerializeField] private TextMeshProUGUI placeText;
+    [SerializeField] private bool playerWon;
 
     private void Awake()
     {
@@ -28,20 +26,27 @@ public class GameManager : MonoBehaviour
     {
         lapCount++;
 
-        if (lapCount > lapTotal) Victory(true);
+        if (lapCount > lapTotal)
+        {
+            playerWon = true;
+            Victory();
+        }
         else lapText.text = "Lap " + lapCount.ToString();
     }
 
     public void OppLapIncrease()
     {
-        oppLapCount++;
+        if (!playerWon)
+        {
+            oppLapCount++;
 
-        if (oppLapCount > lapTotal) Victory(false);
+            if (oppLapCount > lapTotal) Victory();
+        }
     }
 
-    private void Victory(bool playerWon)
+    private void Victory()
     {
-        if (playerWon) placeText.text = "You Win!";
-        else placeText.text = "You Lose!";
+        if (playerWon) lapText.text = "You Win!";
+        else lapText.text = "You Lose!";
     }
 }

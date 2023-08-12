@@ -30,7 +30,7 @@ public class Opponent : MonoBehaviour
             GameManager.gameManager.OppLapIncrease();
         }
 
-        rb.position = Vector2.MoveTowards(transform.position, path[pos], moveSpeed * Time.fixedDeltaTime);
+        rb.position = Vector2.MoveTowards(transform.position, path[pos], (moveSpeed * Time.fixedDeltaTime) / 2);
 
         if (Vector3.Distance(transform.position, path[pos]) < 0.1f)
         {
