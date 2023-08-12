@@ -99,9 +99,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f728046d17470824dbc92ce90e907c49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: []
-  moveSpeed: 25
+  path:
+  - {x: -1, y: 21}
+  - {x: 1.7, y: 39.1}
+  - {x: 45.2, y: 38.7}
+  - {x: 44.9, y: 18.2}
+  - {x: 22.3, y: 16.5}
+  - {x: 19.08, y: 3.03}
+  - {x: 2.49, y: 2.5}
+  - {x: -1, y: 21}
+  moveSpeed: 19
+  turnSpeed: 0.03
   offset: -90
+  closeEnough: 3.5
 --- !u!70 &1730416851175878122
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -135,7 +145,7 @@ Rigidbody2D:
   m_AngularDrag: 1000000
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 0

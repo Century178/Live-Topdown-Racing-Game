@@ -8,7 +8,9 @@ public class Opponent : MonoBehaviour
     private int pos = 0;
 
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float turnSpeed = 2.5f;
     [SerializeField] private float offset;
+    [SerializeField] private float closeEnough = 1f;
 
     private Rigidbody2D rb;
 
@@ -29,18 +31,42 @@ public class Opponent : MonoBehaviour
             pos = 0;
             GameManager.gameManager.OppLapIncrease();
         }
+        Vector3 directionToTarget = path[pos] - (Vector2)transform.position;
 
-        rb.position = Vector2.MoveTowards(transform.position, path[pos], (moveSpeed * Time.fixedDeltaTime) / 2);
+        // Calculate the target rotation angle in degrees
+        float targetRotationAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg;
 
-        if (Vector3.Distance(transform.position, path[pos]) < 0.1f)
+        // Calculate the current rotation angle of the object
+        float currentRotationAngle = Mathf.Atan2(transform.up.y, transform.up.x) * Mathf.Rad2Deg;
+
+        // Smoothly interpolate between the current rotation and target rotation
+        float newRotationAngle = Mathf.LerpAngle(currentRotationAngle, targetRotationAngle, turnSpeed);
+
+        // Apply the new rotation
+        transform.rotation = Quaternion.Euler(0, 0, newRotationAngle + offset);
+
+        rb.position = Vector2.MoveTowards(transform.position, transform.up + transform.position, (moveSpeed * Time.fixedDeltaTime) / 2);
+
+        if (Vector3.Distance(transform.position, path[pos]) < closeEnough)
         {
             pos++;
         }
+    }
 
-        if (pos < path.Length)
+    private void OnDrawGizmos()
+    {
+        if (path == null)
         {
-            Vector3 rawDirection = (Vector2)transform.position - path[pos];
-            rb.rotation = (Mathf.Atan2(rawDirection.y, rawDirection.x) * Mathf.Rad2Deg) - offset;
+            return;
         }
+        Gizmos.color = Color.red;
+        foreach (Vector2 pos in path)
+        {
+            Gizmos.DrawWireSphere(pos, closeEnough);
+        }
+
+        Gizmos.color = Color.green;
+        if (pos < path.Length)
+            Gizmos.DrawLine(transform.position, path[pos]);
     }
 }
